@@ -1,22 +1,22 @@
 {
     "authOptions":
         {
-            "clientId": "4b0db8c2-9f26-4417-8bde-3f0e3656f8e0",
-            "authority": "https://login.microsoftonline.com/common/"
+            "clientId": "4942d2b8-de4c-4469-a8fc-45019b53e428",
+            "authority": "https://login.microsoftonline.com/b53278dc-03e8-4bbb-88b6-da4c39acfa6d/oauth2"
         },
     "request":
     {
         "authCodeUrlParameters": {
             "scopes": ["user.read"],
-            "redirectUri": "http://localhost:3000/redirect"
+            "redirectUri": "https://glowing-space-meme-6694656j49xh56rr-3002.app.github.dev/redirect"
         },
         "tokenRequest": {
-            "redirectUri": "http://localhost:3000/redirect",
+            "redirectUri": "https://glowing-space-meme-6694656j49xh56rr-3002.app.github.dev/redirect",
             "scopes": ["user.read"]
         }
     },
     "resourceApi":
     {
-        "endpoint": "https://graph.microsoft.com/v1.0/me"
+        "endpoint": "https://graph.microsoft.com"
     }
 }

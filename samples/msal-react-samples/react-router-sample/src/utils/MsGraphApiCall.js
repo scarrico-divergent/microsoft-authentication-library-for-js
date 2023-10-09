@@ -25,7 +25,11 @@ export async function callMsGraph(accessToken) {
         headers: headers
     };
 
-    return fetch(graphConfig.graphMeEndpoint, options)
-        .then(response => response.json())
-        .catch(error => console.log(error));
+    return Promise.all([fetch(graphConfig.graphMeEndpoint, options)
+            .then(response => response.json())
+            .catch(error => console.log(error)),fetch(graphConfig.groupsEndpoint, options)
+            .then(response => response.json())
+            .catch(error => console.log(error))]
+            )
+        .then((values => values.reduce((acc,val)=> ({...acc, ...val}),{})))
 }

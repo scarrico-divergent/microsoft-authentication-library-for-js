@@ -18,7 +18,7 @@ require('dotenv').config();
 const argv = require("../cliArgs");
 const { request } = require("express");
 
-const SERVER_PORT = argv.p || 3000;
+const SERVER_PORT = argv.p || 3002;
 const cacheLocation = argv.c || "./data/cache.json";
 const cachePlugin = require('../cachePlugin')(cacheLocation);
 
@@ -34,7 +34,7 @@ const scenario = argv.s || "customConfig";
 const config = require(`./config/${scenario}.json`);
 
 const sessionConfig = {
-    secret: process.env.AZURE_CLIENT_SECRET,
+    secret: process.env.CLIENT_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -163,7 +163,7 @@ if (argv.$0 === "index.js") {
         loggerCallback(loglevel, message, containsPii) {
             console.log(message);
         },
-        piiLoggingEnabled: false,
+        piiLoggingEnabled: true,
         logLevel: msal.LogLevel.Verbose,
     }
 
@@ -172,22 +172,24 @@ if (argv.$0 === "index.js") {
         auth: {
             clientId: config.authOptions.clientId,
             authority: config.authOptions.authority,
-            clientSecret: process.env.AZURE_CLIENT_SECRET,
+            clientSecret: process.env.CLIENT_SECRET,
             knownAuthorities: [config.authOptions.knownAuthorities]
         },
         cache: {
             cachePlugin
         },
         // Uncomment the code below to enable the MSAL logger
-        /*
-         *   system: {
-         *    loggerOptions: loggerOptions
-         *   }
-         */
+        
+           system: {
+             loggerOptions: loggerOptions
+            }
+         
     };
 
     // Create an MSAL PublicClientApplication object
-    const publicClientApplication = new msal.PublicClientApplication(clientConfig);
+    const publicClientApplication = new msal.ConfidentialClientApplication(clientConfig);
+
+    console.log(clientConfig)
 
     // Execute sample application with the configured MSAL PublicClientApplication
     return getTokenAuthCode(config, publicClientApplication, null);
